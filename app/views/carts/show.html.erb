@@ -1,0 +1,20 @@
+<% if flash[:notice] %>
+  <%= flash[:notice] %>
+<% end %>
+<p>
+<% @cartitems.each do |e| %>
+     商品名 : <%= Product.find(e.product_id).name %>
+     価格 : <%= Product.find(e.product_id).price %>
+     数量 : <%= e.qty %>
+     <%= link_to '削除', cartitem_path(e), data: { turbo_method: :delete } %>
+     <br>
+<% end %>
+</p>
+
+<% if @cartitems.any? %>
+  <h3>合計金額: <%= @cartitems.sum { |item| item.product.price * item.qty } %> 円</h3>
+<% else %>
+  <h3>カートは空です。</h3>
+<% end %>
+
+<%= link_to "商品一覧に戻る", root_path %>
